@@ -1,60 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, TextInput, View } from 'react-native';
 
 export default function App() {
+  const [backgroundColor, setBackgroundColor] = useState('red');
+  const [inputValue, setInputValue] = useState('');
+  const onPressBtn = () => {
+    setBackgroundColor(inputValue.toLowerCase());
+  }
   return (
-    <SafeAreaView style={styles.container}>
-    <ScrollView>
-      <View style={{width:"100%", height:350, backgroundColor: "blue"}}>
-        <View style={{ flex: 1, margin: 8, backgroundColor: "black"}}>
-          <View style={{flex: 1, backgroundColor: "green"}}></View>
-          <View style={{flex: 1, backgroundColor: "violet", flexDirection: "row"}}>
-            <View style={{ flex: 1, backgroundColor: "yellow"}}></View>
-            <View style={{ flex: 1, backgroundColor: "purple"}}></View>
-          </View>
-        </View>
-      </View>
-      <View style={{width:"100%", height:350, backgroundColor: "blue"}}>
-        <View style={{ flex: 1, margin: 8, backgroundColor: "black"}}>
-          <View style={{flex: 1, backgroundColor: "green"}}></View>
-          <View style={{flex: 1, backgroundColor: "violet", flexDirection: "row"}}>
-            <View style={{ flex: 1, backgroundColor: "yellow"}}></View>
-            <View style={{ flex: 1, backgroundColor: "purple"}}></View>
-          </View>
-        </View>
-      </View>      
-      <View style={{width:"100%", height:350, backgroundColor: "blue"}}>
-        <View style={{ flex: 1, margin: 8, backgroundColor: "black"}}>
-          <View style={{flex: 1, backgroundColor: "green"}}></View>
-          <View style={{flex: 1, backgroundColor: "violet", flexDirection: "row"}}>
-            <View style={{ flex: 1, backgroundColor: "yellow"}}></View>
-            <View style={{ flex: 1, backgroundColor: "purple"}}></View>
-          </View>
-        </View>
-      </View>      
-      <View style={{width:"100%", height:350, backgroundColor: "blue"}}>
-        <View style={{ flex: 1, margin: 8, backgroundColor: "black"}}>
-          <View style={{flex: 1, backgroundColor: "green"}}></View>
-          <View style={{flex: 1, backgroundColor: "violet", flexDirection: "row"}}>
-            <View style={{ flex: 1, backgroundColor: "yellow"}}></View>
-            <View style={{ flex: 1, backgroundColor: "purple"}}></View>
-          </View>
+      <View style={[styles.container, {backgroundColor}]}>
+        <View style={styles.inputContainer}>
+          <TextInput value={inputValue} onChangeText={setInputValue} style={styles.input}/>
+        <Button title='Valider' onPress={onPressBtn}/>
         </View>
       </View>    
-      </ScrollView>
-      </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    alignItems: "center",
+    justifyContent: "center"
   },
-  text:{
-    borderColor:"red", 
-    borderWidth: 2, 
-    padding: 8,
+  inputContainer: {
+    flexDirection: "row",
     width: "100%",
-  }
+    paddingHorizontal: 8,
+  },
+  input: {
+    width: "80%",
+    backgroundColor: "white",
+  },
 });
