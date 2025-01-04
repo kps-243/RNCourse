@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, TextInput, View, Text } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, TextInput, Text, View, FlatList } from 'react-native';
 
 export default function App() {
   const [inputValue, setInputValue] = useState('');
@@ -15,18 +15,20 @@ export default function App() {
           <TextInput 
           value={inputValue} 
           onChangeText={setInputValue} 
-          style={styles.input}/>
+          style={styles.input}
+          onSubmitEditing={onPressBtn} />
         <Button title='Valide' onPress={onPressBtn}/>
         </View>
         <View style={[styles.resultContainer]}>
-          {
-          inputResult.map((item, index ) => {
-            return <View style={styles.itemContainer} key={index}>
-                      <Text style={styles.itemText}>{item}</Text>
-                  </View>
-          }) 
-          
-          }
+          <FlatList 
+          data={inputResult} 
+          showVerticalScrollIndicator={false}
+          renderItem={({item}) => {
+            return (
+              <View style={styles.itemContainer}>
+                <Text style={styles.itemText}>{item}</Text>
+              </View>)
+          }} />
         </View>
       </SafeAreaView>    
   );
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   inputContainer: {
     flexDirection: "row",
