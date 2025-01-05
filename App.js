@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, TextInput, Text, View, FlatList, Modal, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, Text, View, FlatList, Modal, TouchableOpacity, Image, KeyboardAvoidingView } from 'react-native';
 
 export default function App() {
   const [inputValue, setInputValue] = useState('');
@@ -36,7 +36,10 @@ export default function App() {
           }} />
         </View>
         <Modal visible={isModalVisible} animationType="slide">
+          <KeyboardAvoidingView style={styles.keyboardView} behavior="height">
           <View style={styles.modalView}>
+          <Image source={require('./assets/logo-react-native.png')} style={styles.image} />
+            <View style={styles.formContainer}>
             <TextInput 
             value={inputValue}
             onChangeText={setInputValue}
@@ -50,7 +53,9 @@ export default function App() {
                 <Text style={styles.modalBtnText}>Fermer</Text>
               </TouchableOpacity>
             </View>
+            </View>
           </View>
+          </KeyboardAvoidingView>
         </Modal>
       </SafeAreaView>    
   );
@@ -109,9 +114,20 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 1,
     backgroundColor: "grey",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     paddingHorizontal: 24,
+  },
+  keyboardView: {
+    flex: 1
+  },
+  formContainer: {
+    width: "100%"
+  },
+  image: {
+    width: 260,
+    height: 260,
+    borderRadius: 12,
   },
   modalBtnContainer: {
     flexDirection: "row",
