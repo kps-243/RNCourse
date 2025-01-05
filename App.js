@@ -1,23 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, TextInput, Text, View, FlatList } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, TextInput, Text, View, FlatList, Modal, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [inputValue, setInputValue] = useState('');
   const [inputResult, setInputResult] = useState([]);
-  const onPressBtn = () => {
-    setInputResult((prev) => [...prev, inputValue]);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const onOpenModal = () => {
+    setModalVisible(true);
+  };
+  const onCloseBtn = () => {
+    setModalVisible(false);
+  };
+  const onCreateItem = () => {
+    setInputResult([...inputResult, inputValue]);
     setInputValue('');
+    setModalVisible(false);
   }
   return (
       <SafeAreaView style={[styles.container]}>
         <View style={styles.inputContainer}>
-          <TextInput 
-          value={inputValue} 
-          onChangeText={setInputValue} 
-          style={styles.input}
-          onSubmitEditing={onPressBtn} />
-        <Button title='Valide' onPress={onPressBtn}/>
+          <TouchableOpacity activeOpacity={0.9} style={styles.btn} onPress={onOpenModal}>
+            <Text style={styles.btnText}>Ajouter un élément</Text>
+          </TouchableOpacity>
         </View>
         <View style={[styles.resultContainer]}>
           <FlatList 
@@ -30,6 +35,23 @@ export default function App() {
               </View>)
           }} />
         </View>
+        <Modal visible={isModalVisible} animationType="slide">
+          <View style={styles.modalView}>
+            <TextInput 
+            value={inputValue}
+            onChangeText={setInputValue}
+            style={styles.input}
+            />
+            <View style={styles.modalBtnContainer}>
+              <TouchableOpacity style={[styles.createBtn, styles.modalBtns]} onPress={onCreateItem}>
+                <Text style={styles.modalBtnText}>Créer</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.closeBtn, styles.modalBtns]} onPress={onCloseBtn}>
+                <Text style={styles.modalBtnText}>Fermer</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>    
   );
 }
@@ -46,10 +68,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   input: {
-    width: "80%",
+    width: "100%",
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "gray",
+    borderRadius: 8,
+    height: 42,
+    fontSize: 20,
+    paddingHorizontal: 8,
+  },
+  btn: {
+    width: "100%",
+    height: 50,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "violet",
+  },
+  btnText: {
+    color: "white",
+    fontSize: 20,
   },
   resultContainer: {
     width: "100%",
@@ -66,6 +104,37 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
+  },
+  modalView: {
+    flex: 1,
+    backgroundColor: "grey",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
+  },
+  modalBtnContainer: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+  modalBtns: {
+    width: "40%",
+    height: 50,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 12,
+  },
+  createBtn: {
+    backgroundColor: "blue",
+  },
+  closeBtn: {
+    backgroundColor: "black",
+    marginTop: 50,
+  },
+  modalBtnText: {
+    color: "white",  
+    fontSize: 20,
   },
 });
